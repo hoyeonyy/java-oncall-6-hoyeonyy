@@ -4,15 +4,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Month {
-    private List<Day> monthDatabase;
+public class Calendar {
+    private final int month;
 
-    public Month(int month, String day) {
+    public Calendar(int month) {
+        this.month = month;
+    }
+
+    public List<Day> makeCalendar(String day) {
         List<Day> db = new ArrayList<>();
 
         boolean holidayChecked = false;
         for (int i = 1; i <= makeMonthCount(month); i++) {
-            List<Integer> holiday = makeHoliday(month);
+            List<Integer> holiday = new Holiday().makeHoliday(month);
             if (holiday.contains(i)) {
                 holidayChecked = true;
             }
@@ -21,7 +25,7 @@ public class Month {
             day = nextDay(day);
             db.add(newDay);
         }
-        monthDatabase = db;
+        return db;
     }
 
     public String nextDay(String day) {
@@ -30,34 +34,6 @@ public class Month {
         int nextIndex = (index + 1) % daysOfWeek.size();
 
         return daysOfWeek.get(nextIndex);
-    }
-
-
-    public List<Integer> makeHoliday(int month) {
-        List<Integer> holiday = new ArrayList<>();
-        if (month == 1) {
-            holiday.add(1);
-        }
-        if (month == 3) {
-            holiday.add(1);
-        }
-        if (month == 5) {
-            holiday.add(5);
-        }
-        if (month == 6) {
-            holiday.add(6);
-        }
-        if (month == 8) {
-            holiday.add(15);
-        }
-        if (month == 10) {
-            holiday.add(3);
-            holiday.add(9);
-        }
-        if (month == 12) {
-            holiday.add(25);
-        }
-        return holiday;
     }
 
     public int makeMonthCount(int month) {
@@ -73,8 +49,8 @@ public class Month {
         return 0;
     }
 
-    public List<Day> getMonthDatabase() {
-        return monthDatabase;
+    public int getMonth() {
+        return month;
     }
 
 }
