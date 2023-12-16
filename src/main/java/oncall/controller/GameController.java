@@ -1,24 +1,23 @@
 package oncall.controller;
 
 import java.util.List;
+import oncall.model.Month;
 import oncall.view.InputView;
 
 public class GameController {
     private List<String> weekdayPerson;
     private List<String> weekendPerson;
+    private int month;
+    private String day;
 
     public void startGame() {
         List<String> monthAndDay = InputController.makeMonthAndDay();
+        month = Integer.parseInt(monthAndDay.get(0));
+        day = monthAndDay.get(1);
         weekdayPerson = makeWeekdayPerson();
         weekendPerson = makeWeekendPerson(weekdayPerson);
+        List<Integer> holiday = new Month().makeHoliday(month);
 
-        for (String person : weekdayPerson) {
-            System.out.println(person);
-        }
-        System.out.println();
-        for (String person : weekendPerson) {
-            System.out.println(person);
-        }
     }
 
     public List<String> makeWeekdayPerson() {
