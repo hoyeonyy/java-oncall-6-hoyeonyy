@@ -1,12 +1,14 @@
 package oncall.controller;
 
+import static oncall.controller.InputController.makeMonthAndDay;
+import static oncall.view.OutputView.printResult;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import oncall.model.Calendar;
 import oncall.model.Day;
 import oncall.view.InputView;
-import oncall.view.OutputView;
 
 public class GameController {
     private List<String> weekdayWorker;
@@ -15,7 +17,7 @@ public class GameController {
     private final int month;
 
     public GameController() {
-        List<String> monthAndDay = InputController.makeMonthAndDay();
+        List<String> monthAndDay = makeMonthAndDay();
         month = Integer.parseInt(monthAndDay.get(0));
         String day = monthAndDay.get(1);
 
@@ -25,6 +27,11 @@ public class GameController {
     }
 
     public void startGame() {
+        calculateSchedule();
+        printResult(calendar, month);
+    }
+
+    private void calculateSchedule() {
         List<String> copyWeekday = new ArrayList<>();
         copyWeekday.addAll(weekdayWorker);
         List<String> copyWeekend = new ArrayList<>();
@@ -37,49 +44,39 @@ public class GameController {
         for (Day day1 : calendar) {
             if (day1.isWeekday()) {
                 if (!duplicate.peek().equals(weekdayWorker.get(weekdayNumber))) {
-                    day1.setName(weekdayWorker.get(weekdayNumber));
-                    duplicate.push(weekdayWorker.get(weekdayNumber));
-                    weekdayNumber++;
-                    if (weekdayNumber >= weekdayWorker.size()) {
-                        weekdayNumber -= weekdayWorker.size();
-                        weekdayWorker = copyWeekday;
-                    }
+                    weekdayNumber = makeschedule(day1, weekdayWorker, weekdayNumber, duplicate, copyWeekday);
                     continue;
                 }
                 changeWeekday(weekdayNumber);
-                day1.setName(weekdayWorker.get(weekdayNumber));
-                duplicate.push(weekdayWorker.get(weekdayNumber));
-                weekdayNumber++;
-                if (weekdayNumber >= weekdayWorker.size()) {
-                    weekdayNumber -= weekdayWorker.size();
-                    weekdayWorker = copyWeekday;
-                }
+                weekdayNumber = makeschedule(day1, weekdayWorker, weekdayNumber, duplicate, copyWeekday);
             }
 
             if (day1.isWeekend()) {
                 if (!duplicate.peek().equals(holidayWorker.get(holidayNumber))) {
-                    day1.setName(holidayWorker.get(holidayNumber));
-                    duplicate.push(holidayWorker.get(holidayNumber));
-                    holidayNumber++;
-                    if (holidayNumber >= holidayWorker.size()) {
-                        holidayNumber -= holidayWorker.size();
-                        holidayWorker = copyWeekend;
-                    }
+                    holidayNumber = makeschedule(day1, holidayWorker, holidayNumber, duplicate, copyWeekend);
                     continue;
                 }
                 changeWeekend(holidayNumber);
-                day1.setName(holidayWorker.get(holidayNumber));
-                duplicate.push(holidayWorker.get(holidayNumber));
-                holidayNumber++;
-                if (holidayNumber >= holidayWorker.size()) {
-                    holidayNumber -= holidayWorker.size();
-                    holidayWorker = copyWeekend;
-                }
+                holidayNumber = makeschedule(day1, holidayWorker, holidayNumber, duplicate, copyWeekend);
             }
         }
+    }
 
-        OutputView.printResult(calendar, month);
+    private int makeschedule(Day day1, List<String> weekdayWorker, int weekdayNumber, Stack<String> duplicate,
+                             List<String> copyWeekday) {
+        day1.setName(weekdayWorker.get(weekdayNumber));
+        duplicate.push(weekdayWorker.get(weekdayNumber));
+        weekdayNumber++;
+        weekdayNumber = nextNumber(weekdayNumber, weekdayWorker, copyWeekday);
+        return weekdayNumber;
+    }
 
+    private int nextNumber(int weekdayNumber, List<String> weekdayWorker, List<String> copyWeekday) {
+        if (weekdayNumber >= weekdayWorker.size()) {
+            weekdayNumber -= weekdayWorker.size();
+            weekdayWorker = copyWeekday;
+        }
+        return weekdayNumber;
     }
 
     private void changeWeekend(int weekendNumber) {
