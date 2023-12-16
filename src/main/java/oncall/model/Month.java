@@ -1,14 +1,11 @@
 package oncall.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Month {
     private List<Day> monthDatabase;
-
-    public List<Day> getMonthDatabase() {
-        return monthDatabase;
-    }
 
     public Month(int month, String day) {
         List<Day> db = new ArrayList<>();
@@ -28,29 +25,13 @@ public class Month {
     }
 
     public String nextDay(String day) {
-        if (day.equals("월")) {
-            return "화";
-        }
-        if (day.equals("화")) {
-            return "수";
-        }
-        if (day.equals("수")) {
-            return "목";
-        }
-        if (day.equals("목")) {
-            return "금";
-        }
-        if (day.equals("금")) {
-            return "토";
-        }
-        if (day.equals("토")) {
-            return "일";
-        }
-        if (day.equals("일")) {
-            return "월";
-        }
-        return "";
+        List<String> daysOfWeek = Arrays.asList("월", "화", "수", "목", "금", "토", "일");
+        int index = daysOfWeek.indexOf(day);
+        int nextIndex = (index + 1) % daysOfWeek.size();
+
+        return daysOfWeek.get(nextIndex);
     }
+
 
     public List<Integer> makeHoliday(int month) {
         List<Integer> holiday = new ArrayList<>();
@@ -91,4 +72,9 @@ public class Month {
         }
         return 0;
     }
+
+    public List<Day> getMonthDatabase() {
+        return monthDatabase;
+    }
+
 }
