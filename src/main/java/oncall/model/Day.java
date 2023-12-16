@@ -1,6 +1,23 @@
 package oncall.model;
 
 public class Day {
+    private enum Week {
+        MONDAY("월"),
+        TUESDAY("화"),
+        WEDNESDAY("수"),
+        THURSDAY("목"),
+        FRIDAY("금"),
+        SATURDAY("토"),
+        SUNDAY("일");
+
+
+        private final String week;
+
+        Week(String week) {
+            this.week = week;
+        }
+    }
+
     private int day;
     private String sevenDay;
     private boolean holiday;
@@ -13,15 +30,16 @@ public class Day {
     }
 
     public boolean isHoliday() {
-        if (sevenDay.equals("토") || sevenDay.equals("일") || holiday == true) {
+        if (sevenDay.equals(Week.SATURDAY.week) || sevenDay.equals(Week.SUNDAY.week) || holiday == true) {
             return true;
         }
         return false;
     }
 
     public boolean isWeekday() {
-        if (holiday == false && (sevenDay.equals("월") || sevenDay.equals("화") || sevenDay.equals("수")
-                || sevenDay.equals("목") || sevenDay.equals("금"))) {
+        if (holiday == false && (sevenDay.equals(Week.MONDAY.week) || sevenDay.equals(Week.TUESDAY.week)
+                || sevenDay.equals(Week.WEDNESDAY.week)
+                || sevenDay.equals(Week.THURSDAY.week) || sevenDay.equals(Week.FRIDAY.week))) {
             return true;
         }
         return false;
