@@ -1,5 +1,13 @@
 package oncall.utils.validation;
 
+import static oncall.utils.Constants.INTEGER_RANGE;
+import static oncall.utils.Constants.LONGEST_NAME;
+import static oncall.utils.Constants.MAXIMUM_PEOPLE;
+import static oncall.utils.Constants.MINIMUM_PEOPLE;
+import static oncall.utils.Constants.MONTH_END;
+import static oncall.utils.Constants.MONTH_START;
+import static oncall.utils.Constants.WEEK_RANGE;
+
 import java.util.ArrayList;
 import java.util.List;
 import oncall.utils.ErrorMessage;
@@ -52,14 +60,14 @@ public class Validator {
 
     private void validateCorrectName(List<String> input) {
         for (String name : input) {
-            if (name.length() > 5) {
+            if (name.length() > LONGEST_NAME) {
                 throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT.showMessage());
             }
         }
     }
 
     private void validateCorrectSize(List<String> input) {
-        if (input.size() < 5 || input.size() > 35) {
+        if (input.size() < MINIMUM_PEOPLE || input.size() > MAXIMUM_PEOPLE) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT.showMessage());
         }
     }
@@ -71,20 +79,20 @@ public class Validator {
     }
 
     private void validateInteger(String month) {
-        if (!month.matches("^[0-9]*$")) {
+        if (!month.matches(INTEGER_RANGE)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT.showMessage());
         }
     }
 
     private void validateMonth(String month) {
         int realMonth = Integer.parseInt(month);
-        if (realMonth < 1 || realMonth > 12) {
+        if (realMonth < MONTH_START || realMonth > MONTH_END) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT.showMessage());
         }
     }
 
     public void validateDay(String day) {
-        if (!day.matches("^(월|화|수|목|금|토|일)$")) {
+        if (!day.matches(WEEK_RANGE)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT.showMessage());
         }
     }
