@@ -43,26 +43,26 @@ public class GameController {
         duplicate.push(" ");
         for (Day day : calendar) {
             if (day.isWeekday() && !duplicate.peek().equals(weekdayWorker.get(weekdayNumber))) {
-                weekdayNumber = makeschedule(day, weekdayWorker, weekdayNumber, duplicate, copyWeekday);
+                weekdayNumber = makeSchedule(day, weekdayWorker, weekdayNumber, duplicate, copyWeekday);
                 continue;
             }
             if (day.isWeekday()) {
                 changeWeekday(weekdayNumber);
-                weekdayNumber = makeschedule(day, weekdayWorker, weekdayNumber, duplicate, copyWeekday);
+                weekdayNumber = makeSchedule(day, weekdayWorker, weekdayNumber, duplicate, copyWeekday);
             }
 
             if (day.isHoliday() && !duplicate.peek().equals(holidayWorker.get(holidayNumber))) {
-                holidayNumber = makeschedule(day, holidayWorker, holidayNumber, duplicate, copyWeekend);
+                holidayNumber = makeSchedule(day, holidayWorker, holidayNumber, duplicate, copyWeekend);
                 continue;
             }
             if (day.isHoliday()) {
                 changeWeekend(holidayNumber);
-                holidayNumber = makeschedule(day, holidayWorker, holidayNumber, duplicate, copyWeekend);
+                holidayNumber = makeSchedule(day, holidayWorker, holidayNumber, duplicate, copyWeekend);
             }
         }
     }
 
-    private int makeschedule(Day day1, List<String> weekdayWorker, int weekdayNumber, Stack<String> duplicate,
+    private int makeSchedule(Day day1, List<String> weekdayWorker, int weekdayNumber, Stack<String> duplicate,
                              List<String> copyWeekday) {
         day1.setName(weekdayWorker.get(weekdayNumber));
         duplicate.push(weekdayWorker.get(weekdayNumber));
