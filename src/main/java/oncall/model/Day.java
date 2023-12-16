@@ -24,7 +24,7 @@ public class Day {
         return holiday;
     }
 
-    public boolean isWeekend() {
+    public boolean isHoliday() {
         if (sevenDay.equals("토") || sevenDay.equals("일") || holiday == true) {
             return true;
         }
@@ -46,4 +46,5 @@ public class Day {
     public String getName() {
         return name;
     }
+
 }
