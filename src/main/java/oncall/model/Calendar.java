@@ -37,17 +37,10 @@ public class Calendar {
     }
 
     public int makeMonthCount(int month) {
-        if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
-            return 31;
-        }
-        if (month == 4 || month == 6 || month == 9 || month == 11) {
-            return 30;
-        }
-        if (month == 2) {
-            return 28;
-        }
-        return 0;
+        List<Integer> daysInMonth = Arrays.asList(0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+        return daysInMonth.get(month);
     }
+
 
     public int getMonth() {
         return month;
