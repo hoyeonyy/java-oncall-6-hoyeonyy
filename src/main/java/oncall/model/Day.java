@@ -12,18 +12,6 @@ public class Day {
         this.holiday = holiday;
     }
 
-    public int getDay() {
-        return day;
-    }
-
-    public String getSevenDay() {
-        return sevenDay;
-    }
-
-    public boolean getHoliday() {
-        return holiday;
-    }
-
     public boolean isHoliday() {
         if (sevenDay.equals("토") || sevenDay.equals("일") || holiday == true) {
             return true;
@@ -38,6 +26,19 @@ public class Day {
         }
         return false;
     }
+
+    public int getDay() {
+        return day;
+    }
+
+    public String getSevenDay() {
+        return sevenDay;
+    }
+
+    public boolean getHoliday() {
+        return holiday;
+    }
+
 
     public void setName(String name) {
         this.name = name;
