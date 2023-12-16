@@ -19,6 +19,27 @@ public class Validator {
         validateDuplicateName(input);
     }
 
+    public void validateWeekendPerson(List<String> input, List<String> weekdayPeople) {
+        validateCorrectSize(input);
+        validateCorrectName(input);
+        validateDuplicateName(input);
+        validateOnceAMonthWork(input, weekdayPeople);
+    }
+
+    private void validateOnceAMonthWork(List<String> input, List<String> weekdayPeople) {
+        for (String weekendPerson : input) {
+            if (!weekdayPeople.contains(weekendPerson)) {
+                throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT.showMessage());
+            }
+        }
+
+        for (String weekdayPerson : weekdayPeople) {
+            if (!input.contains(weekdayPerson)) {
+                throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT.showMessage());
+            }
+        }
+    }
+
     private void validateDuplicateName(List<String> input) {
         List<String> duplication = new ArrayList<>();
         for (String name : input) {
@@ -67,5 +88,4 @@ public class Validator {
             throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT.showMessage());
         }
     }
-
 }
