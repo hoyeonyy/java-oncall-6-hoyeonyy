@@ -6,6 +6,7 @@ import java.util.Stack;
 import oncall.model.Calendar;
 import oncall.model.Day;
 import oncall.view.InputView;
+import oncall.view.OutputView;
 
 public class GameController {
     private List<String> weekdayWorker;
@@ -30,7 +31,7 @@ public class GameController {
         copyWeekend.addAll(holidayWorker);
 
         int weekdayNumber = 0;
-        int weekendNumber = 0;
+        int holidayNumber = 0;
         Stack<String> duplicate = new Stack<>();
         duplicate.push(" ");
         for (Day day1 : calendar) {
@@ -56,36 +57,28 @@ public class GameController {
             }
 
             if (day1.isWeekend()) {
-                if (!duplicate.peek().equals(holidayWorker.get(weekendNumber))) {
-                    day1.setName(holidayWorker.get(weekendNumber));
-                    duplicate.push(holidayWorker.get(weekendNumber));
-                    weekendNumber++;
-                    if (weekendNumber >= holidayWorker.size()) {
-                        weekendNumber -= holidayWorker.size();
+                if (!duplicate.peek().equals(holidayWorker.get(holidayNumber))) {
+                    day1.setName(holidayWorker.get(holidayNumber));
+                    duplicate.push(holidayWorker.get(holidayNumber));
+                    holidayNumber++;
+                    if (holidayNumber >= holidayWorker.size()) {
+                        holidayNumber -= holidayWorker.size();
                         holidayWorker = copyWeekend;
                     }
                     continue;
                 }
-                changeWeekend(weekendNumber);
-                day1.setName(holidayWorker.get(weekendNumber));
-                duplicate.push(holidayWorker.get(weekendNumber));
-                weekendNumber++;
-                if (weekendNumber >= holidayWorker.size()) {
-                    weekendNumber -= holidayWorker.size();
+                changeWeekend(holidayNumber);
+                day1.setName(holidayWorker.get(holidayNumber));
+                duplicate.push(holidayWorker.get(holidayNumber));
+                holidayNumber++;
+                if (holidayNumber >= holidayWorker.size()) {
+                    holidayNumber -= holidayWorker.size();
                     holidayWorker = copyWeekend;
                 }
             }
         }
 
-        for (Day day1 : calendar) {
-            String holi = " ";
-            if (day1.getHoliday()) {
-                holi = "(휴일)";
-            }
-            System.out.println(month + "월 " + day1.getDay() + "일 " + day1.getSevenDay() + holi + day1.getName());
-            holi = " ";
-        }
-
+        OutputView.printResult(calendar, month);
 
     }
 

@@ -10,25 +10,13 @@ public class Util {
         return input.replaceAll(Regex.SPACE.regex, Regex.NOTHING.regex);
     }
 
-    public static String removeDelimiters(String input) {
-        return input.replace(Regex.BRACKETS_START.regex, Regex.NOTHING.regex)
-                .replace(Regex.BRACKETS_END.regex, Regex.NOTHING.regex);
-    }
-
     public static List<String> splitByComma(String input) {
         return new ArrayList<>(Arrays.asList(removeSpace(input).split(Regex.COMMA.regex)));
     }
 
-    public static List<String> applyAll(String input) {
-        return splitByComma(removeDelimiters(removeSpace(input)));
-    }
-
-
     private enum Regex {
         SPACE(" "),
         NOTHING(""),
-        BRACKETS_START("["),
-        BRACKETS_END("]"),
         COMMA(",");
 
         private final String regex;

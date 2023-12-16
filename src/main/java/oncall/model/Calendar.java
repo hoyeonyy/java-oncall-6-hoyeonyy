@@ -41,9 +41,7 @@ public class Calendar {
         return daysInMonth.get(month);
     }
 
-
     public int getMonth() {
         return month;
     }
-
 }

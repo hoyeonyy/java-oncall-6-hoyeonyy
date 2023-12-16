@@ -1,9 +1,11 @@
 package oncall.view;
 
+import java.util.List;
+import oncall.model.Day;
+
 public class OutputView {
     private enum Message {
-        OUTPUT_GAME_START("게임을 시작합니다."),
-        OUTPUT_GAME_GOGO("%s가 %d개의 물건을 샀습니다.");
+        OUTPUT_GAME_RESULT("%d월 %d일 %s%s%s\n");
 
         private final String message;
 
@@ -12,11 +14,11 @@ public class OutputView {
         }
     }
 
-    public static void printGameStart() {
-        System.out.println(Message.OUTPUT_GAME_START.message);
-
-        System.out.printf(Message.OUTPUT_GAME_GOGO.message, "호연", 5);
-        //또는
-        System.out.println(String.format(Message.OUTPUT_GAME_GOGO.message, "호연", 5));
+    public static void printResult(List<Day> result, int month) {
+        result.forEach(day1 -> {
+            String holi = day1.getHoliday() ? "(휴일)" : " ";
+            System.out.printf(Message.OUTPUT_GAME_RESULT.message, month, day1.getDay(), day1.getSevenDay(), holi,
+                    day1.getName());
+        });
     }
 }
